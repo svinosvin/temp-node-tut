@@ -1,19 +1,15 @@
-const http = require('http');
+const {createReadStream} = require('fs');
 
-const server = http.createServer((req,res)=>{
-if(req.url === "/"){
-res.end("home page");
-}
-else if(req.url === "/about"){
-    res.end("about page");
+const stream = createReadStream('./content/big.txt',{encoding:'utf-8'});
 
-}
-else {
-    res.end("error page");
-}
+
+stream.on('data',(data)=>{
+    console.log(data);
+})
+stream.on('end',()=>{
+    console.log("Finished process");
 })
 
-server.listen(5000,()=>
-{
+stream.on('err',(err)=>{
+    console.log(err);
 })
-console.log("server listening on port 5000");
